@@ -4,16 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kuiz RBT Tahun 5 - Pertanian Bandar</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f0fdf4; }
-        .font-heading { font-family: 'Fredoka', sans-serif; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f0fdf4;
+        }
+        .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between text-slate-800">
 
+    <!-- Header -->
     <header class="bg-emerald-600 text-white shadow-md">
         <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -25,30 +32,61 @@
                     <p class="text-xs md:text-sm text-emerald-100">Unit: Pertanian Bandar & Tanaman Moden</p>
                 </div>
             </div>
+            <div id="badge-container" class="hidden md:block bg-emerald-700/50 px-3 py-1.5 rounded-full text-xs font-semibold border border-emerald-400/30">
+                <i class="fa-solid fa-award text-yellow-300 mr-1"></i> Reka Bentuk & Teknologi
+            </div>
         </div>
     </header>
 
+    <!-- Main Content Container -->
     <main class="max-w-3xl mx-auto px-4 py-8 w-full flex-grow">
 
-        <!-- Mula Kuiz -->
+        <!-- Welcome Card -->
         <div id="start-card" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center border border-emerald-100">
             <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
                 <i class="fa-solid fa-wheat-awn"></i>
             </div>
             <h2 class="font-heading text-2xl md:text-3xl font-bold text-slate-800 mb-2">Uji Kefahaman Pertanian Bandar</h2>
             <p class="text-slate-600 mb-6 text-sm md:text-base max-w-lg mx-auto">
-                Uji pengetahuan anda mengenai kaedah penanaman moden, jenis sistem takungan, dan bekas pengairan kendiri!
+                Uji pengetahuan anda mengenai kaedah penanaman moden, jenis sistem takungan, bekas pengairan kendiri, dan kebaikan pertanian bandar!
             </p>
-            <button onclick="startQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition duration-200 text-lg">
-                Mula Kuiz Sekarang
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 text-left max-w-xl mx-auto">
+                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 flex items-center space-x-3">
+                    <i class="fa-solid fa-list-check text-emerald-600 text-xl"></i>
+                    <div>
+                        <div class="text-xs text-slate-500 font-medium">Jumlah Soalan</div>
+                        <div class="font-bold text-slate-800">10 Soalan</div>
+                    </div>
+                </div>
+                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 flex items-center space-x-3">
+                    <i class="fa-solid fa-clock text-emerald-600 text-xl"></i>
+                    <div>
+                        <div class="text-xs text-slate-500 font-medium">Masa</div>
+                        <div class="font-bold text-slate-800">Santai</div>
+                    </div>
+                </div>
+                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-100 flex items-center space-x-3">
+                    <i class="fa-solid fa-graduation-cap text-emerald-600 text-xl"></i>
+                    <div>
+                        <div class="text-xs text-slate-500 font-medium">Tahap</div>
+                        <div class="font-bold text-slate-800">Tahun 5 SK</div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition duration-200 text-lg flex items-center justify-center mx-auto space-x-2">
+                <span>Mula Kuiz Sekarang</span>
+                <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
 
-        <!-- Soalan Kuiz -->
+        <!-- Quiz Screen -->
         <div id="quiz-card" class="hidden bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-emerald-100">
+            <!-- Progress Bar -->
             <div class="mb-6">
                 <div class="flex justify-between items-center text-xs md:text-sm font-semibold text-slate-500 mb-2">
-                    <span id="question-number-text">Soalan 1</span>
+                    <span id="question-number-text">Soalan 1 daripada 10</span>
                     <span id="score-live-text" class="text-emerald-600 font-bold">Skor: 0</span>
                 </div>
                 <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
@@ -56,157 +94,307 @@
                 </div>
             </div>
 
+            <!-- Tag Topic -->
             <div class="mb-3">
                 <span id="question-tag" class="inline-block bg-emerald-100 text-emerald-700 text-xs px-3 py-1 rounded-full font-semibold">
                     Pertanian Bandar
                 </span>
             </div>
 
-            <h3 id="question-text" class="font-heading text-lg md:text-xl font-bold text-slate-800 mb-4">
-                Teks soalan...
+            <!-- Question Title -->
+            <h3 id="question-text" class="font-heading text-lg md:text-xl font-bold text-slate-800 mb-6">
+                Teks soalan akan dipaparkan di sini...
             </h3>
 
-            <!-- BAHAGIAN GAMBAR SOALAN -->
-            <div id="image-container" class="hidden mb-6 text-center">
-                <img id="question-image" src="" alt="Gambar Soalan" class="max-h-60 rounded-xl mx-auto border border-slate-200 shadow-sm object-contain">
+            <!-- Options Container -->
+            <div id="options-container" class="space-y-3 mb-6">
+                <!-- Options generated dynamically -->
             </div>
 
-            <div id="options-container" class="space-y-3 mb-6"></div>
-
+            <!-- Rationale / Feedback Box -->
             <div id="feedback-box" class="hidden p-4 rounded-xl mb-6 text-sm">
                 <div id="feedback-status" class="font-bold mb-1 flex items-center"></div>
                 <div id="feedback-rationale" class="text-slate-700"></div>
             </div>
 
+            <!-- Action Button -->
             <div class="flex justify-end">
-                <button id="next-btn" onclick="nextQuestion()" disabled class="bg-slate-300 text-slate-500 cursor-not-allowed font-bold py-2.5 px-6 rounded-xl shadow transition duration-200">
-                    Soalan Seterusnya
+                <button id="next-btn" onclick="nextQuestion()" disabled class="bg-slate-300 text-slate-500 cursor-not-allowed font-bold py-2.5 px-6 rounded-xl shadow transition duration-200 flex items-center space-x-2">
+                    <span>Soalan Seterusnya</span>
+                    <i class="fa-solid fa-chevron-right"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Keputusan -->
+        <!-- Result Screen -->
         <div id="result-card" class="hidden bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center border border-emerald-100">
-            <h2 class="font-heading text-2xl font-bold mb-2">Tahniah!</h2>
-            <div class="text-4xl font-black text-emerald-600 mb-4" id="final-score">0 / 0</div>
-            <button onclick="restartQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg">
-                Cuba Lagi
+            <div id="result-icon" class="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">
+                <!-- Trophy or star icon -->
+            </div>
+            <h2 id="result-title" class="font-heading text-2xl md:text-3xl font-bold text-slate-800 mb-1">Tahniah!</h2>
+            <p id="result-subtitle" class="text-slate-600 mb-6 text-sm md:text-base">Anda telah menyelesaikan kuiz RBT Tahun 5.</p>
+
+            <!-- Score Display -->
+            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 max-w-sm mx-auto mb-8">
+                <div class="text-xs uppercase tracking-wider text-slate-400 font-bold mb-1">Markah Keseluruhan</div>
+                <div class="text-4xl md:text-5xl font-black text-emerald-600 mb-2 font-heading" id="final-score">0 / 10</div>
+                <div class="text-sm font-semibold text-slate-600" id="percentage-text">0%</div>
+            </div>
+
+            <!-- Summary Review Section -->
+            <div class="text-left mb-8">
+                <h4 class="font-heading font-bold text-lg text-slate-800 mb-4 flex items-center">
+                    <i class="fa-solid fa-magnifying-glass text-emerald-600 mr-2"></i> Semakan Jawapan
+                </h4>
+                <div id="summary-container" class="space-y-3 max-h-80 overflow-y-auto pr-2">
+                    <!-- Summary cards injected via JS -->
+                </div>
+            </div>
+
+            <button onclick="restartQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition duration-200 flex items-center justify-center mx-auto space-x-2">
+                <i class="fa-solid fa-rotate-right"></i>
+                <span>Cuba Lagi</span>
             </button>
         </div>
 
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs">
+        <p>© Modul Reka Bentuk & Teknologi (RBT) Tahun 5 - Disediakan untuk Pembelajaran Interaktif</p>
+    </footer>
+
+    <!-- Quiz JavaScript Logic -->
     <script>
         const quizData = [
             {
-                tag: "Bekas Pengairan Kendiri",
-                question: "Apakah nama bahan berpori yang dimasukkan ke dalam ruang kapilari untuk menyerap air?",
-                image: "leca.jpg", // ISI NAMA FAIL GAMBAR DI SINI (Contoh: leca.jpg)
-                options: [
-                    "Light Expanded Clay Aggregate (LECA)",
-                    "Pasir Sungai",
-                    "Kepingan Kayu",
-                    "Batu Bata"
-                ],
-                correctIndex: 0,
-                rationale: "LECA dan tali mop merupakan bahan yang boleh menyerap air untuk membawa air naik dari takung ke medium penanaman."
-            },
-            {
                 tag: "Pertanian Bandar",
                 question: "Apakah yang dimaksudkan dengan Pertanian Bandar?",
-                image: null, // TIADA GAMBAR
                 options: [
-                    "Aktiviti bercucuk tanam bagi menghasilkan makanan di sekitar rumah yang mempunyai ruang terhad.",
-                    "Penternakan lembu secara komersial di kawasan luar bandar.",
-                    "Penanaman hutan semula di kawasan tanah tinggi.",
-                    "Pembinaan kilang baja kimia di bandar."
+                    "Aktiviti bercucuk tanam bagi menghasilkan tanaman makanan di sekitar rumah yang mempunyai ruang terhad.",
+                    "Aktiviti penternakan haiwan secara komersial di kawasan luar bandar.",
+                    "Penanaman pokok hiasan di taman-taman awam secara besar-besaran.",
+                    "Pembukaan kawasan hutan baharu untuk projek ladang kelapa sawit."
                 ],
                 correctIndex: 0,
-                rationale: "Pertanian bandar dilakukan di kediaman beruang terhad seperti rumah pangsa, kondominium, dan rumah teres."
+                rationale: "Pertanian bandar ialah aktiviti bercucuk tanam untuk menghasilkan makanan sendiri di kawasan kediaman yang mempunyai ruang terhad."
+            },
+            {
+                tag: "Kebaikan Pertanian Bandar",
+                question: "Antara berikut, yang manakah BUKAN kebaikan menjalankan Pertanian Bandar?",
+                options: [
+                    "Menghasilkan sumber makanan sendiri yang segar.",
+                    "Memelihara alam sekitar dengan menggunakan bahan guna semula.",
+                    "Mengurangkan kelembapan udara dan merosakkan landskap.",
+                    "Menjanakan pendapatan sampingan jika hasil dijual."
+                ],
+                correctIndex: 2,
+                rationale: "Pertanian bandar sebenarnya mempercatikkan persekitaran dan memelihara alam sekitar, bukannya merosakkan landskap."
+            },
+            {
+                tag: "Kaedah Penanaman",
+                question: "Apakah kaedah susunan tanaman yang paling sesuai digunakan di kediaman bertingkat seperti kondominium untuk menjimatkan ruang?",
+                options: [
+                    "Menyusun tanaman secara menegak atau bertingkat pada dinding.",
+                    "Membuat batas tanah yang besar di atas lantai simen.",
+                    "Menabur benih secara terus di atas kawasan laluan berjalan.",
+                    "Membiarkan tanaman menjalar di serata kawasan rumah."
+                ],
+                correctIndex: 0,
+                rationale: "Susunan tanaman secara menegak atau bertingkat pada dinding membolehkan ruang terhad dimanfaatkan secara optimum."
+            },
+            {
+                tag: "Bekas Pengairan Kendiri",
+                question: "Apakah fungsi utama partikel kapilari dalam Bekas Pengairan Kendiri?",
+                options: [
+                    "Membawa air naik dari takung air ke bahagian medium penanaman.",
+                    "Menunjukkan aras kuantiti air semasa yang tinggal di dalam takung.",
+                    "Mengalirkan keluar air yang berlebihan supaya akar tidak terendam.",
+                    "Memegang pokok supaya berada dalam keadaan tegak dan stabil."
+                ],
+                correctIndex: 0,
+                rationale: "Partikel kapilari berfungsi menyerap dan membawa air naik dari takung air ke medium penanaman secara automatik."
+            },
+            {
+                tag: "Bekas Pengairan Kendiri",
+                question: "Bahan apakah yang sesuai dijadikan sebagai partikel kapilari kerana sifatnya yang boleh menyerap air?",
+                options: [
+                    "Light Expanded Clay Aggregate (LECA) dan tali mop.",
+                    "Batu kerikil sungai dan kepingan plastik nipis.",
+                    "Paip PVC dan dawai besi tahan karat.",
+                    "Pasir kasar dan kiub ais."
+                ],
+                correctIndex: 0,
+                rationale: "Bahan yang boleh menyerap air seperti LECA, tali mop, benang, dan tempurung kelapa sawit sangat sesuai sebagai bahan kapilari."
+            },
+            {
+                tag: "Sistem Takungan",
+                question: "Apakah perbezaan utama antara Kultur Air Dalam (Tanpa Kitaran Semula) dan (Dengan Kitaran Semula)?",
+                options: [
+                    "Sistem dengan kitaran semula menggunakan pam untuk mengalirkan larutan nutrien secara berterusan.",
+                    "Sistem tanpa kitaran semula memerlukan tanah sebagai medium penanaman.",
+                    "Sistem dengan kitaran semula tidak memerlukan sebarang cecair nutrien.",
+                    "Sistem tanpa kitaran semula menggunakan tangki ikan di dalam air."
+                ],
+                correctIndex: 0,
+                rationale: "Dalam sistem Kultur Air Dalam dengan kitaran semula, pam digunakan untuk mengalirkan larutan nutrien ke palung dan mengalir semula ke tangki."
+            },
+            {
+                tag: "Sistem Takungan Moden",
+                question: "Sistem penanaman moden yang menggabungkan ternakan ikan dengan penanaman sayur-sayuran dikenali sebagai...",
+                options: [
+                    "Akuaponik.",
+                    "Aeroponik.",
+                    "Kultur Batas.",
+                    "Permakultur."
+                ],
+                correctIndex: 0,
+                rationale: "Akuaponik ialah teknologi yang menggabungkan akuakultur (ternakan ikan) dan hidroponik (tanaman sayuran) dalam satu sistem."
+            },
+            {
+                tag: "Kultur Air Dalam",
+                question: "Mengapakah penutup takung sangat penting dalam sistem Kultur Air Dalam?",
+                options: [
+                    "Untuk memegang raga tanaman dan mengelakkan larutan nutrien terdedah kepada cahaya matahari.",
+                    "Untuk menghalang air hujan daripada bertakung di atas tanah.",
+                    "Untuk membolehkan pokok menyerap karbon dioksida daripada cecair.",
+                    "Untuk menambah berat takungan supaya tidak diterbangkan angin."
+                ],
+                correctIndex: 0,
+                rationale: "Penutup takung berfungsi memegang raga tanaman serta menghalang cahaya matahari daripada terkena larutan nutrien yang boleh menyebabkan pertumbuhan lumut."
+            },
+            {
+                tag: "Baja Kompos",
+                question: "Apakah yang dimaksudkan dengan Baja Kompos?",
+                options: [
+                    "Hasil pereputan sisa makanan, sisa tanaman dan najis ternakan.",
+                    "Baja kimia sintetik yang diproses di kilang industri.",
+                    "Campuran racun serangga dan cecair pembasmi kuman.",
+                    "Garam mineral tulen yang dilarutkan ke dalam air."
+                ],
+                correctIndex: 0,
+                rationale: "Baja kompos merupakan baja organik hasil daripada pereputan sisa buangan dapur, sisa tanaman, dan najis ternakan."
+            },
+            {
+                tag: "Taman Mini Edibel",
+                question: "Kumpulan Aiman ingin membina 'Taman Mini Edibel'. Apakah konsep utama taman tersebut?",
+                options: [
+                    "Penanaman pelbagai jenis tumbuhan yang menghasilkan makanan di kawasan terhad.",
+                    "Taman permainan mini yang dibina daripada bahan plastik terpakai.",
+                    "Landskap rumput tiruan yang hanya dijadikan hiasan dinding.",
+                    "Kolam air terjun mini yang dipenuhi ikan hiasan."
+                ],
+                correctIndex: 0,
+                rationale: "Taman Mini Edibel ialah taman yang ditanam dengan pelbagai jenis tumbuhan menghasilkan makanan (buah/sayur) pada ruang yang terhad."
             }
         ];
 
         let currentQuestion = 0;
         let score = 0;
+        let userAnswers = [];
+        let selectedOption = null;
 
         function startQuiz() {
             document.getElementById('start-card').classList.add('hidden');
             document.getElementById('quiz-card').classList.remove('hidden');
             currentQuestion = 0;
             score = 0;
+            userAnswers = [];
             showQuestion();
         }
 
         function showQuestion() {
             const q = quizData[currentQuestion];
+            selectedOption = null;
 
+            // Reset UI
             document.getElementById('question-number-text').innerText = `Soalan ${currentQuestion + 1} daripada ${quizData.length}`;
             document.getElementById('score-live-text').innerText = `Skor: ${score}`;
             document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
             document.getElementById('question-tag').innerText = q.tag;
             document.getElementById('question-text').innerText = q.question;
 
-            // KENDALI GAMBAR
-            const imageContainer = document.getElementById('image-container');
-            const questionImage = document.getElementById('question-image');
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.classList.add('hidden');
 
-            if (q.image) {
-                questionImage.src = q.image;
-                imageContainer.classList.remove('hidden');
-            } else {
-                imageContainer.classList.add('hidden');
-            }
-
-            document.getElementById('feedback-box').classList.add('hidden');
             const nextBtn = document.getElementById('next-btn');
             nextBtn.disabled = true;
-            nextBtn.className = "bg-slate-300 text-slate-500 cursor-not-allowed font-bold py-2.5 px-6 rounded-xl shadow transition duration-200";
+            nextBtn.className = "bg-slate-300 text-slate-500 cursor-not-allowed font-bold py-2.5 px-6 rounded-xl shadow transition duration-200 flex items-center space-x-2";
 
+            // Render options
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
 
             q.options.forEach((opt, index) => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/50 transition duration-150 flex items-start space-x-3";
+                btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/50 transition duration-150 flex items-start space-x-3 group";
                 btn.onclick = () => selectOption(index);
+
                 btn.innerHTML = `
-                    <span class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                    <span class="w-6 h-6 rounded-full border-2 border-slate-300 group-hover:border-emerald-500 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                         ${String.fromCharCode(65 + index)}
                     </span>
-                    <span class="text-slate-700 text-sm md:text-base">${opt}</span>
+                    <span class="text-slate-700 text-sm md:text-base leading-snug">${opt}</span>
                 `;
                 optionsContainer.appendChild(btn);
             });
         }
 
         function selectOption(index) {
+            if (selectedOption !== null) return; // Prevent changing after answer
+            selectedOption = index;
+
             const q = quizData[currentQuestion];
             const isCorrect = index === q.correctIndex;
             if (isCorrect) score++;
 
+            userAnswers.push({
+                question: q.question,
+                selected: index,
+                correct: q.correctIndex,
+                isCorrect: isCorrect,
+                rationale: q.rationale,
+                options: q.options
+            });
+
+            // Update option styles
             const optionsContainer = document.getElementById('options-container');
             const buttons = optionsContainer.children;
 
             for (let i = 0; i < buttons.length; i++) {
                 buttons[i].disabled = true;
+                buttons[i].classList.remove('hover:border-emerald-400', 'hover:bg-emerald-50/50');
+
                 if (i === q.correctIndex) {
                     buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-medium flex items-start space-x-3";
+                    buttons[i].querySelector('span').className = "w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5";
                 } else if (i === index && !isCorrect) {
                     buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-rose-400 bg-rose-50 text-rose-800 flex items-start space-x-3";
+                    buttons[i].querySelector('span').className = "w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5";
                 } else {
                     buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-slate-100 bg-slate-50 opacity-60 flex items-start space-x-3";
                 }
             }
 
+            // Show Feedback
             const feedbackBox = document.getElementById('feedback-box');
-            feedbackBox.classList.remove('hidden');
-            feedbackBox.className = `p-4 rounded-xl mb-6 text-sm ${isCorrect ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-rose-50 border border-rose-200 text-rose-900'}`;
-            document.getElementById('feedback-status').innerHTML = isCorrect ? '<i class="fa-solid fa-circle-check text-emerald-600 mr-2"></i> Tepat!' : '<i class="fa-solid fa-circle-xmark text-rose-600 mr-2"></i> Kurang Tepat';
-            document.getElementById('feedback-rationale').innerText = q.rationale;
+            const feedbackStatus = document.getElementById('feedback-status');
+            const feedbackRationale = document.getElementById('feedback-rationale');
 
+            feedbackBox.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackBox.className = "p-4 rounded-xl mb-6 text-sm bg-emerald-50 border border-emerald-200 text-emerald-900";
+                feedbackStatus.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 mr-2 text-lg"></i> Jawapan Tepat!`;
+            } else {
+                feedbackBox.className = "p-4 rounded-xl mb-6 text-sm bg-rose-50 border border-rose-200 text-rose-900";
+                feedbackStatus.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 mr-2 text-lg"></i> Jawapan Kurang Tepat`;
+            }
+            feedbackRationale.innerText = q.rationale;
+
+            // Enable Next Button
             const nextBtn = document.getElementById('next-btn');
             nextBtn.disabled = false;
-            nextBtn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl shadow hover:shadow-md transition duration-200";
+            nextBtn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl shadow hover:shadow-md transition duration-200 flex items-center space-x-2";
         }
 
         function nextQuestion() {
@@ -214,10 +402,61 @@
             if (currentQuestion < quizData.length) {
                 showQuestion();
             } else {
-                document.getElementById('quiz-card').classList.add('hidden');
-                document.getElementById('result-card').classList.remove('hidden');
-                document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
+                showResults();
             }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-card').classList.add('hidden');
+            document.getElementById('result-card').classList.remove('hidden');
+
+            const percentage = Math.round((score / quizData.length) * 100);
+            document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
+            document.getElementById('percentage-text').innerText = `${percentage}% Keputusan`;
+
+            const iconContainer = document.getElementById('result-icon');
+            const title = document.getElementById('result-title');
+
+            if (percentage >= 80) {
+                iconContainer.className = "w-24 h-24 bg-yellow-100 text-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner";
+                iconContainer.innerHTML = `<i class="fa-solid fa-trophy"></i>`;
+                title.innerText = "Cemerlang & Syabas!";
+            } else if (percentage >= 50) {
+                iconContainer.className = "w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner";
+                iconContainer.innerHTML = `<i class="fa-solid fa-star"></i>`;
+                title.innerText = "Tahniah! Keputusan Baik";
+            } else {
+                iconContainer.className = "w-24 h-24 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner";
+                iconContainer.innerHTML = `<i class="fa-solid fa-book-open"></i>`;
+                title.innerText = "Teruskan Usaha!";
+            }
+
+            // Build Summary Review
+            const summaryContainer = document.getElementById('summary-container');
+            summaryContainer.innerHTML = '';
+
+            userAnswers.forEach((ans, idx) => {
+                const item = document.createElement('div');
+                item.className = `p-4 rounded-xl border ${ans.isCorrect ? 'border-emerald-200 bg-emerald-50/40' : 'border-rose-200 bg-rose-50/40'}`;
+
+                item.innerHTML = `
+                    <div class="flex items-start justify-between mb-1">
+                        <span class="text-xs font-bold ${ans.isCorrect ? 'text-emerald-700' : 'text-rose-700'}">Soalan ${idx + 1}</span>
+                        <span class="text-xs ${ans.isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'} px-2 py-0.5 rounded-full font-semibold">
+                            ${ans.isCorrect ? 'Betul' : 'Salah'}
+                        </span>
+                    </div>
+                    <div class="font-bold text-slate-800 text-sm mb-2">${ans.question}</div>
+                    <div class="text-xs text-slate-600 mb-1">
+                        <strong>Jawapan Anda:</strong> <span class="${ans.isCorrect ? 'text-emerald-700' : 'text-rose-700'}">${ans.options[ans.selected]}</span>
+                    </div>
+                    ${!ans.isCorrect ? `<div class="text-xs text-emerald-700 mb-1"><strong>Jawapan Sebenar:</strong> ${ans.options[ans.correct]}</div>` : ''}
+                    <div class="text-xs text-slate-500 mt-2 bg-white/60 p-2 rounded border border-slate-100">
+                        <em>${ans.rationale}</em>
+                    </div>
+                `;
+                summaryContainer.appendChild(item);
+            });
         }
 
         function restartQuiz() {
@@ -227,3 +466,4 @@
     </script>
 </body>
 </html>
+```eof
