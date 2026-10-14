@@ -96,158 +96,134 @@
 
     </main>
 
-<script>
-    const quizData = [
-        {
-            tag: "Bekas Pengairan Kendiri",
-            question: "Apakah nama bahan berpori yang dimasukkan ke dalam ruang kapilari untuk menyerap air?",
-            image: "leca.jpg",
-            options: [
-                "Light Expanded Clay Aggregate (LECA)",
-                "Pasir Sungai",
-                "Kepingan Kayu",
-                "Batu Bata"
-            ],
-            correctIndex: 0,
-            rationale: "LECA dan tali mop merupakan bahan yang boleh menyerap air untuk membawa air naik dari takung ke medium penanaman."
-        },
-        {
-            tag: "Pertanian Bandar",
-            question: "Apakah yang dimaksudkan dengan Pertanian Bandar?",
-            image: null,
-            options: [
-                "Aktiviti bercucuk tanam bagi menghasilkan makanan di sekitar rumah yang mempunyai ruang terhad.",
-                "Penternakan lembu secara komersial di kawasan luar bandar.",
-                "Penanaman hutan semula di kawasan tanah tinggi.",
-                "Pembinaan kilang baja kimia di bandar."
-            ],
-            correctIndex: 0,
-            rationale: "Pertanian bandar dilakukan di kediaman beruang terhad seperti rumah pangsa, kondominium, dan rumah teres."
-        }
-    ];
+    <script>
+        const quizData = [
+            {
+                tag: "Bekas Pengairan Kendiri",
+                question: "Apakah nama bahan berpori yang dimasukkan ke dalam ruang kapilari untuk menyerap air?",
+                image: "leca.jpg", // ISI NAMA FAIL GAMBAR DI SINI (Contoh: leca.jpg)
+                options: [
+                    "Light Expanded Clay Aggregate (LECA)",
+                    "Pasir Sungai",
+                    "Kepingan Kayu",
+                    "Batu Bata"
+                ],
+                correctIndex: 0,
+                rationale: "LECA dan tali mop merupakan bahan yang boleh menyerap air untuk membawa air naik dari takung ke medium penanaman."
+            },
+            {
+                tag: "Pertanian Bandar",
+                question: "Apakah yang dimaksudkan dengan Pertanian Bandar?",
+                image: null, // TIADA GAMBAR
+                options: [
+                    "Aktiviti bercucuk tanam bagi menghasilkan makanan di sekitar rumah yang mempunyai ruang terhad.",
+                    "Penternakan lembu secara komersial di kawasan luar bandar.",
+                    "Penanaman hutan semula di kawasan tanah tinggi.",
+                    "Pembinaan kilang baja kimia di bandar."
+                ],
+                correctIndex: 0,
+                rationale: "Pertanian bandar dilakukan di kediaman beruang terhad seperti rumah pangsa, kondominium, dan rumah teres."
+            }
+        ];
 
-    let currentQuestion = 0;
-    let score = 0;
-    let currentShuffledOptions = []; // Menyimpan pilihan jawapan yang telah dirawakkan
+        let currentQuestion = 0;
+        let score = 0;
 
-    function startQuiz() {
-        document.getElementById('start-card').classList.add('hidden');
-        document.getElementById('quiz-card').classList.remove('hidden');
-        currentQuestion = 0;
-        score = 0;
-        showQuestion();
-    }
-
-    function showQuestion() {
-        const q = quizData[currentQuestion];
-
-        document.getElementById('question-number-text').innerText = `Soalan ${currentQuestion + 1} daripada ${quizData.length}`;
-        document.getElementById('score-live-text').innerText = `Skor: ${score}`;
-        document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
-        document.getElementById('question-tag').innerText = q.tag;
-        document.getElementById('question-text').innerText = q.question;
-
-        // Kendall Gambar
-        const imageContainer = document.getElementById('image-container');
-        const questionImage = document.getElementById('question-image');
-
-        if (q.image) {
-            questionImage.src = q.image;
-            imageContainer.classList.remove('hidden');
-        } else {
-            imageContainer.classList.add('hidden');
+        function startQuiz() {
+            document.getElementById('start-card').classList.add('hidden');
+            document.getElementById('quiz-card').classList.remove('hidden');
+            currentQuestion = 0;
+            score = 0;
+            showQuestion();
         }
 
-        document.getElementById('feedback-box').classList.add('hidden');
-        const nextBtn = document.getElementById('next-btn');
-        nextBtn.disabled = true;
-        nextBtn.className = "bg-slate-300 text-slate-500 cursor-not-allowed font-bold py-2.5 px-6 rounded-xl shadow transition duration-200";
+        function showQuestion() {
+            const q = quizData[currentQuestion];
 
-        // ========================================================
-        // PROSES MERAWAKKAN (SHUFFLE) PILIHAN JAWAPAN
-        // ========================================================
-        // 1. Tandakan jawapan betul/salah berdasarkan correctIndex asal
-        currentShuffledOptions = q.options.map((optText, index) => {
-            return {
-                text: optText,
-                isCorrect: index === q.correctIndex
-            };
-        });
+            document.getElementById('question-number-text').innerText = `Soalan ${currentQuestion + 1} daripada ${quizData.length}`;
+            document.getElementById('score-live-text').innerText = `Skor: ${score}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+            document.getElementById('question-tag').innerText = q.tag;
+            document.getElementById('question-text').innerText = q.question;
 
-        // 2. Susun pilihan jawapan secara rawak menggunakan Math.random()
-        currentShuffledOptions.sort(() => Math.random() - 0.5);
-        // ========================================================
+            // KENDALI GAMBAR
+            const imageContainer = document.getElementById('image-container');
+            const questionImage = document.getElementById('question-image');
 
-        // Paparkan butang pilihan jawapan selepas dirawakkan
-        const optionsContainer = document.getElementById('options-container');
-        optionsContainer.innerHTML = '';
-
-        currentShuffledOptions.forEach((optObj, index) => {
-            const btn = document.createElement('button');
-            btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/50 transition duration-150 flex items-start space-x-3";
-            btn.onclick = () => selectOption(index);
-            btn.innerHTML = `
-                <span class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                    ${String.fromCharCode(65 + index)}
-                </span>
-                <span class="text-slate-700 text-sm md:text-base">${optObj.text}</span>
-            `;
-            optionsContainer.appendChild(btn);
-        });
-    }
-
-    function selectOption(selectedIndex) {
-        const q = quizData[currentQuestion];
-        const selectedObj = currentShuffledOptions[selectedIndex];
-        const isCorrect = selectedObj.isCorrect;
-
-        if (isCorrect) score++;
-
-        const optionsContainer = document.getElementById('options-container');
-        const buttons = optionsContainer.children;
-
-        // Warnakan pilihan jawapan
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].disabled = true;
-            const optObj = currentShuffledOptions[i];
-
-            if (optObj.isCorrect) {
-                // Pilihan betul sentiasa diwarnakan hijau
-                buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-medium flex items-start space-x-3";
-            } else if (i === selectedIndex && !isCorrect) {
-                // Pilihan salah yang dipilih murid diwarnakan merah
-                buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-rose-400 bg-rose-50 text-rose-800 flex items-start space-x-3";
+            if (q.image) {
+                questionImage.src = q.image;
+                imageContainer.classList.remove('hidden');
             } else {
-                buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-slate-100 bg-slate-50 opacity-60 flex items-start space-x-3";
+                imageContainer.classList.add('hidden');
+            }
+
+            document.getElementById('feedback-box').classList.add('hidden');
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = true;
+            nextBtn.className = "bg-slate-300 text-slate-500 cursor-not-allowed font-bold py-2.5 px-6 rounded-xl shadow transition duration-200";
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50/50 transition duration-150 flex items-start space-x-3";
+                btn.onclick = () => selectOption(index);
+                btn.innerHTML = `
+                    <span class="w-6 h-6 rounded-full border-2 border-slate-300 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                        ${String.fromCharCode(65 + index)}
+                    </span>
+                    <span class="text-slate-700 text-sm md:text-base">${opt}</span>
+                `;
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(index) {
+            const q = quizData[currentQuestion];
+            const isCorrect = index === q.correctIndex;
+            if (isCorrect) score++;
+
+            const optionsContainer = document.getElementById('options-container');
+            const buttons = optionsContainer.children;
+
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                if (i === q.correctIndex) {
+                    buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-800 font-medium flex items-start space-x-3";
+                } else if (i === index && !isCorrect) {
+                    buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-rose-400 bg-rose-50 text-rose-800 flex items-start space-x-3";
+                } else {
+                    buttons[i].className = "w-full text-left p-4 rounded-xl border-2 border-slate-100 bg-slate-50 opacity-60 flex items-start space-x-3";
+                }
+            }
+
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.classList.remove('hidden');
+            feedbackBox.className = `p-4 rounded-xl mb-6 text-sm ${isCorrect ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-rose-50 border border-rose-200 text-rose-900'}`;
+            document.getElementById('feedback-status').innerHTML = isCorrect ? '<i class="fa-solid fa-circle-check text-emerald-600 mr-2"></i> Tepat!' : '<i class="fa-solid fa-circle-xmark text-rose-600 mr-2"></i> Kurang Tepat';
+            document.getElementById('feedback-rationale').innerText = q.rationale;
+
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = false;
+            nextBtn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl shadow hover:shadow-md transition duration-200";
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                showQuestion();
+            } else {
+                document.getElementById('quiz-card').classList.add('hidden');
+                document.getElementById('result-card').classList.remove('hidden');
+                document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
             }
         }
 
-        const feedbackBox = document.getElementById('feedback-box');
-        feedbackBox.classList.remove('hidden');
-        feedbackBox.className = `p-4 rounded-xl mb-6 text-sm ${isCorrect ? 'bg-emerald-50 border border-emerald-200 text-emerald-900' : 'bg-rose-50 border border-rose-200 text-rose-900'}`;
-        document.getElementById('feedback-status').innerHTML = isCorrect ? '<i class="fa-solid fa-circle-check text-emerald-600 mr-2"></i> Tepat!' : '<i class="fa-solid fa-circle-xmark text-rose-600 mr-2"></i> Kurang Tepat';
-        document.getElementById('feedback-rationale').innerText = q.rationale;
-
-        const nextBtn = document.getElementById('next-btn');
-        nextBtn.disabled = false;
-        nextBtn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl shadow hover:shadow-md transition duration-200";
-    }
-
-    function nextQuestion() {
-        currentQuestion++;
-        if (currentQuestion < quizData.length) {
-            showQuestion();
-        } else {
-            document.getElementById('quiz-card').classList.add('hidden');
-            document.getElementById('result-card').classList.remove('hidden');
-            document.getElementById('final-score').innerText = `${score} / ${quizData.length}`;
+        function restartQuiz() {
+            document.getElementById('result-card').classList.add('hidden');
+            document.getElementById('start-card').classList.remove('hidden');
         }
-    }
-
-    function restartQuiz() {
-        document.getElementById('result-card').classList.add('hidden');
-        document.getElementById('start-card').classList.remove('hidden');
-    }
-</script>
+    </script>
 </body>
 </html>
